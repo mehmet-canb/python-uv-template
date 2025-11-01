@@ -3,6 +3,7 @@ name = "app"
 version = "0.1.0"
 description = "An app description"
 readme = "README.md"
+license = { file = "LICENSE" }
 authors = [
     { name = "Mehmet Can Bıyık" }
 ]
@@ -11,11 +12,34 @@ requires-python = ">=3.14"
 dependencies = []
 
 [project.scripts]
+# WARNING: Update both the command name and module path to match your package name
 app = "app.main:main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8.0",
+    # NOTE: Disabled because basedpyright has a hard dependency on nodejs
+    # "basedpyright>=1.0.0",
+]
+test = [
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
+    "coverage>=7.0.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.8.23,<0.9.0"]
 build-backend = "uv_build"
+
+[tool.basedpyright]
+pythonPlatform = "Linux"
+typeCheckingMode = "recommended"
+include = ["src"]
+exclude = ["**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+]
+
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -59,7 +83,7 @@ target-version = "py314"
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["C", "E", "F", "W"]
+select = ["C", "E", "F", "W", "I"]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -68,6 +92,10 @@ unfixable = ["F401"]
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+# WARNING: Update this to match your project's package name
+known-first-party = ["app"]
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
@@ -95,3 +123,30 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+[tool.pytest.ini_options]
+# WARNING: Update --cov=app to match your package name
+addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov"
+testpaths = ["tests/unit_tests"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+]

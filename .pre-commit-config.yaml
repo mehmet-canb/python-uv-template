@@ -25,12 +25,19 @@ repos:
     - id: ruff
       name: Ruff Lint (System hook)
       types_or: [ python, pyi ]
-      entry: ruff check
+      entry: uv run ruff check
       language: system
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
       name: Ruff Format (System hook)
       language: system
-      entry: ruff format
+      entry: uv run ruff format
       types_or: [ python, pyi ]
+    # Run the type checker.
+    - id: basedpyright
+      name: basedpyright (System hook)
+      language: system
+      entry: basedpyright --level error
+      types_or: [ python, pyi ]
+      pass_filenames: false
