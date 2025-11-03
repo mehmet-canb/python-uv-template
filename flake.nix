@@ -49,7 +49,19 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          python = pkgs.python314;
+
+          # Read Python version from .python-version file (e.g., "3.14")
+          pythonVersion = lib.trim (builtins.readFile ./.python-version);
+
+          # Take up to 3 version parts (major.minor.patch). Note: nixpkgs only provides major.minor packages
+          # by default (e.g., python314). For patch-specific versions (e.g., python3141), overlays are required.
+          #  (see https://discourse.nixos.org/t/how-do-i-use-a-specific-patch-release-of-python-eg-3-7-5/10923)
+          pythonMajorMinorPatch = lib.sublist 0 3 (lib.splitVersion pythonVersion);
+
+          # Convert "3.14" -> "python314" using semantic version splitting
+          pythonPackage = "python${lib.concatStrings pythonMajorMinorPatch}";
+
+          python = pkgs.${pythonPackage};
         in
         (pkgs.callPackage pyproject-nix.build.packages {
           inherit python;

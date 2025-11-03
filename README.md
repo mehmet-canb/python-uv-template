@@ -172,6 +172,23 @@ addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov
 # Change "app" to your package name
 ```
 
+### Changing Python Version
+
+The Python version is read from the `.python-version` file:
+
+```bash
+# Change Python version (e.g., to 3.13)
+uv python pin 3.13
+
+# Update the uv lock file for the new Python version
+uv lock
+
+# Re-enter the Nix shell to use the new version
+nix develop
+```
+
+**Note**: nixpkgs only provides major.minor Python versions by default (e.g., `python313`, `python314`). Patch-specific versions require additional Nix overlays. See comments in `flake.nix` for details.
+
 ### Adding Dependencies
 
 ```bash
