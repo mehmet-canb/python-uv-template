@@ -15,17 +15,32 @@ A modern Python project template using Nix flakes, uv for dependency management,
 
 ## Prerequisites
 
-- [Nix](https://nixos.org/download.html) with flakes enabled
+- [Nix](https://nixos.org) with flakes enabled
 - [direnv](https://direnv.net/) (optional, for automatic environment activation)
+
+**Recommended:** Use the [Determinate Nix Installer](https://determinate.systems/nix-installer/) for the easiest installation experience. It enables flakes by default and provides automated uninstallation.
+
+<details>
+<summary>Alternative: Official Nix installer</summary>
+
+If you prefer the official installer, follow the instructions at [nixos.org/download](https://nixos.org/download.html).
+
+Note that the official installer does not automate the uninstallation process.
+</details>
 
 ## Quick Start
 
-### 1. Clone and Setup
+### 1. Create Your Project
+
+**Recommended:** Use GitHub's template feature
+
+1. Click the "Use this template" button at the top of this repository
+2. Create a new repository from the template
+3. Clone your new repository:
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd app-template
+git clone https://github.com/<your-username>/<your-project-name>
+cd <your-project-name>
 
 # If using direnv
 direnv allow
@@ -33,6 +48,27 @@ direnv allow
 # Or manually enter the nix shell
 nix develop
 ```
+
+<details>
+<summary>Alternative: Manual clone (hosting agnostic)</summary>
+
+```bash
+# Clone the template repository
+git clone https://github.com/mehmet-canb/python-uv-template <your-project-name>
+cd <your-project-name>
+
+# Remove the template's git history and start fresh
+rm -rf .git
+git init
+git add .
+git commit -m "Initial commit"
+
+# Add your own remote (example uses GitHub)
+git remote add origin https://github.com/<your-username>/<your-project-name>
+git push -u origin main
+```
+
+</details>
 
 The Nix shell will automatically:
 - Install Python 3.14, uv, ruff, basedpyright, and pre-commit
