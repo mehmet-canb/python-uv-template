@@ -9,7 +9,10 @@ authors = [
 ]
 requires-python = ">=3.14"
 
-dependencies = []
+dependencies = [
+    "pydantic>=2.12.3",
+    "pydantic-settings>=2.11.0",
+]
 
 [project.scripts]
 # WARNING: Update both the command name and module path to match your package name
@@ -18,7 +21,8 @@ app = "app.main:main"
 [dependency-groups]
 dev = [
     "ruff>=0.8.0",
-    # NOTE: Disabled because basedpyright has a hard dependency on nodejs
+    # NOTE: Disabled because basedpyright has problems with nix flakes
+    #  Issue to Track: https://github.com/DetachHead/basedpyright/issues/1613
     # "basedpyright>=1.0.0",
 ]
 test = [

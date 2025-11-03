@@ -1,3 +1,6 @@
+from app.environment_settings import env_settings
+
+
 def greet(name: str) -> str:
     """Return a greeting message for the given name.
 
@@ -7,7 +10,7 @@ def greet(name: str) -> str:
     Returns:
         - str: A greeting message in the format "Hello, {name}!"
     """
-    return f"Hello, {name}!"
+    return f"Hello, {name} from {env_settings.cwd}!"
 
 
 def add_numbers(a: int, b: int) -> int:

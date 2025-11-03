@@ -88,7 +88,7 @@
             shellHook = ''
               unset PYTHONPATH
               export REPO_ROOT=$(git rev-parse --show-toplevel)
-              uv sync
+              uv sync --all-extras --all-groups
               source .venv/bin/activate
               pre-commit install
             '';
