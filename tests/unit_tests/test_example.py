@@ -11,9 +11,9 @@ from app.main import add_numbers, calculate_factorial, greet, main
 
 def test_greet():
     """Test the greet function."""
-    assert greet("World") == "Hello, World!"
-    assert greet("Python") == "Hello, Python!"
-    assert greet("") == "Hello, !"
+    assert greet("World").startswith("Hello, World from ")
+    assert greet("Python").startswith("Hello, Python from ")
+    assert greet("").startswith("Hello,  from ")
 
 
 def test_add_numbers():
@@ -60,6 +60,6 @@ def test_main(capsys):
     main()
     captured = capsys.readouterr()
     assert "Hello World!" in captured.out
-    assert "Hello, Developer!" in captured.out
+    assert "Hello, Developer from " in captured.out
     assert "5 + 3 = 8" in captured.out
     assert "5! = 120" in captured.out
