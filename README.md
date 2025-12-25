@@ -216,6 +216,43 @@ run: ## Run the application
 	uv run app
 ```
 
+### Environment Variables
+
+This template uses a `.env` file for environment configuration.
+
+#### Setting Up `.env`
+
+```bash
+# Creates .env from .env.example with CWD automatically set
+make setup-env
+```
+
+The setup process:
+1. Copies `.env.example` to `.env`
+2. Replaces `DUMMY_PATH` with your current working directory
+3. Strips inline comments (e.g., `DEBUG=false # comment` becomes `DEBUG=false`)
+
+**Note:** Inline comments in `.env.example` are for documentation only and are removed in `.env` to ensure compatibility with all tools.
+
+#### Environment Loading in Makefile
+
+The `test` and `run` targets automatically load `.env` variables before execution. This makes environment variables available to non-Python tools that don't use pydantic-settings.
+
+```bash
+# Both commands have access to .env variables
+make test
+make run
+```
+
+#### Local Environment Overrides
+
+For personal environment customizations that shouldn't be committed:
+
+1. Create a `.envrc.local` file (already in `.gitignore`)
+2. Add your local overrides
+
+The `.envrc` automatically sources `.envrc.local` if it exists, so direnv users get automatic loading of personal settings.
+
 ### Changing Python Version
 
 The Python version is read from the `.python-version` file:
