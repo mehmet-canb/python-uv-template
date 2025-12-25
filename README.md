@@ -99,6 +99,67 @@ uv run app
 uv run python -m app.main
 ```
 
+### 4. Rename the Package
+
+The default package name is `app`. To rename it to your project name, run:
+
+```bash
+./scripts/rename-package.sh <new-project-name>
+```
+
+This script updates all configuration files, renames `src/app`, and fixes Python imports.
+
+<details>
+<summary>What the script changes</summary>
+
+#### `pyproject.toml`:
+
+The distribution name:
+
+```toml
+[project]
+name = "app"  # Changed to your project name
+version = "0.1.0"
+description = "An app description"  # Update this manually
+authors = [{ name = "Your Name" }]  # Update this manually
+```
+
+Command name and module path:
+
+```toml
+[project.scripts]
+app = "app.main:main"
+```
+
+Import sorting module name:
+
+```toml
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+```
+
+Coverage report module name:
+
+```toml
+[tool.pytest.ini_options]
+addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov"
+```
+
+#### `Makefile`
+
+Run target:
+
+```make
+run: load-env ## Run the application
+	uv run app
+```
+
+#### Miscellaneous
+
+`src/app/` directory is renamed to `src/<new-project-name>/` and all Python imports in `src/` and `tests/` are updated.
+
+</details>
+
 ## Development
 
 ### Code Quality
@@ -173,48 +234,6 @@ See [tests/README.md](tests/README.md) for detailed testing documentation.
 ```
 
 ## Configuration
-
-### Project Metadata
-
-Update `pyproject.toml` to customize your project:
-
-```toml
-[project]
-name = "app"  # Change to your project name
-version = "0.1.0"
-description = "An app description"  # Add your description
-authors = [{ name = "Your Name" }]  # Update author info
-```
-
-WARNING: Update the console script in `pyproject.toml`:
-
-```toml
-[project.scripts]
-app = "app.main:main"  # Change both "app" (command name) and "app.main" (module path)
-```
-
-WARNING: Update the isort configuration in `pyproject.toml`:
-
-```toml
-[tool.ruff.lint.isort]
-known-first-party = ["app"]  # Change "app" to your package name
-```
-
-WARNING: Update the pytest configuration in `pyproject.toml`:
-
-```toml
-[tool.pytest.ini_options]
-addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov"
-# Change "app" to your package name
-```
-
-WARNING: Update the `Makefile`:
-
-```make
-# Change the app to the package name
-run: ## Run the application
-	uv run app
-```
 
 ### Environment Variables
 
