@@ -208,6 +208,14 @@ addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov
 # Change "app" to your package name
 ```
 
+WARNING: Update the `Makefile`:
+
+```make
+run: ## Run the application
+	# Change the app to the package name
+	uv run app
+```
+
 ### Changing Python Version
 
 The Python version is read from the `.python-version` file:

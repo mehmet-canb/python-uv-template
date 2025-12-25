@@ -19,6 +19,7 @@ test: ## Run tests
 	uv run pytest
 
 run: ## Run the application
+	# Change the app to the package name
 	uv run app
 
 clean: ## Clean build artifacts and cache
