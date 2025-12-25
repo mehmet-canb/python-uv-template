@@ -21,6 +21,8 @@ setup-env: ## Copy .env.example to .env and replace DUMMY_PATH with current dire
 		sed "s|DUMMY_PATH|$$(pwd)|g" .env.example > .env; \
 		echo ".env file created from .env.example"; \
 		echo "CWD set to $$(pwd)"; \
+		echo "Removing the comments in the .env file that start with #"; \
+		sed -i "s|^\([^#]\+\)[[:space:]]\+#[^#]\+$$|\1|g" .env; \
 		echo "Please edit .env with your configuration."; \
 	fi
 
