@@ -1,4 +1,4 @@
-.PHONY: help setup-env clean test run
+.PHONY: help setup-env load-env clean test run
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -10,7 +10,7 @@ define load_env # Taken from https://unix.stackexchange.com/a/594401
 	$(eval export)
 endef
 
-load-env: setup-env ## load env/local-dev.env environment
+load-env: setup-env ## Load env environment
 	$(call load_env,)
 
 setup-env: ## Copy .env.example to .env and replace DUMMY_PATH with current directory
