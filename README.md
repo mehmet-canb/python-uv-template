@@ -211,8 +211,8 @@ addopts = "-v --maxfail=1 --cov=app --cov-report=html:tests/test_results/htmlcov
 WARNING: Update the `Makefile`:
 
 ```make
+# Change the app to the package name
 run: ## Run the application
-	# Change the app to the package name
 	uv run app
 ```
 

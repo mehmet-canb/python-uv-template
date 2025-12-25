@@ -4,6 +4,15 @@ help: ## Show this help message
 	@echo "Available commands:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  make %-15s %s\n", $$1, $$2}'
 
+define load_env # Taken from https://unix.stackexchange.com/a/594401
+	$(eval ENV_FILE := $(1).env)
+	$(eval include $(1).env)
+	$(eval export)
+endef
+
+load-env: setup-env ## load env/local-dev.env environment
+	$(call load_env,)
+
 setup-env: ## Copy .env.example to .env and replace DUMMY_PATH with current directory
 	@if [ -f .env ]; then \
 		echo "Warning: .env already exists. Skipping..."; \
@@ -15,11 +24,11 @@ setup-env: ## Copy .env.example to .env and replace DUMMY_PATH with current dire
 		echo "Please edit .env with your configuration."; \
 	fi
 
-test: ## Run tests
+test: load-env ## Run tests
 	uv run pytest
 
-run: ## Run the application
-	# Change the app to the package name
+# Change the app to the package name
+run: load-env ## Run the application
 	uv run app
 
 clean: ## Clean build artifacts and cache
